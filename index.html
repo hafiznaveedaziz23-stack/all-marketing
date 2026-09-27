@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Marketing | Digital Growth & Marketing Agency</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-badge">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="logo-text">
+                    ALL <span>MARKETING</span>
+                </div>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#services" class="nav-link">Services & Pricing</a></li>
+                <li><a href="#why-us" class="nav-link">Why Choose Us</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="admin.html" class="btn btn-admin">
+                    <i class="fa-solid fa-user-gear"></i> Admin Panel
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="hero-tag">
+                    <i class="fa-solid fa-rocket"></i> Premium Marketing Solutions
+                </div>
+                <h1 class="hero-title">
+                    Scale Your Business With <span>Result-Driven Marketing</span>
+                </h1>
+                <p class="hero-desc">
+                    Get high-converting Social Media Management, Google Ads, SEO, and Brand Identity packages at transparent, affordable prices tailored for your growth.
+                </p>
+                <div class="hero-cta">
+                    <a href="#services" class="btn btn-primary">
+                        <i class="fa-solid fa-bag-shopping"></i> Explore Packages
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fa-solid fa-comments"></i> Custom Inquiry
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h4>500+</h4>
+                        <p>Successful Campaigns</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>98%</h4>
+                        <p>Client Satisfaction</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>10x</h4>
+                        <p>Average ROI Growth</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-card-preview">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Marketing Agency Dashboard">
+                <div class="floating-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div>
+                        <strong style="display:block; font-size: 0.9rem;">100% Guaranteed Results</strong>
+                        <span style="font-size: 0.75rem; color: #94a3b8;">Affordable & Munasab Packages</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FILTER & SEARCH SECTION -->
+    <section id="services" class="filter-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Marketing Services & Packages</h2>
+                <p>Choose from our top-rated digital marketing services designed for maximum reach and high conversion.</p>
+            </div>
+
+            <div class="filter-bar">
+                <div class="categories-tabs" id="categories-tabs">
+                    <button class="cat-tab active" data-category="All">All Services</button>
+                    <button class="cat-tab" data-category="Social Media">Social Media</button>
+                    <button class="cat-tab" data-category="Paid Ads">Paid Ads</button>
+                    <button class="cat-tab" data-category="SEO">SEO Ranking</button>
+                    <button class="cat-tab" data-category="Branding">Branding</button>
+                    <button class="cat-tab" data-category="Full Marketing">Bundles</button>
+                    <button class="cat-tab" data-category="Content Creation">Video & Content</button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Search marketing services...">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS / SERVICES GRID -->
+    <section class="products-section">
+        <div class="container">
+            <div id="products-grid" class="products-grid">
+                <!-- JavaScript will populate marketing products here -->
+            </div>
+            
+            <div id="no-products-msg" style="display: none; text-align: center; padding: 4rem 1rem;">
+                <i class="fa-solid fa-box-open" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <h3>No Marketing Services Found</h3>
+                <p style="color: var(--text-muted);">Try clearing your search or switching categories.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section id="why-us" style="background: white; padding: 5rem 0; border-top: 1px solid var(--border);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why All Marketing?</h2>
+                <p>We deliver high quality digital agency results at prices that fit every business budget.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div style="padding: 2rem; background: var(--light-bg); border-radius: var(--radius-lg); border: 1px solid var(--border);">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Affordable & Clear Pricing</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">No hidden fees or surprise monthly charges. You get exactly what you pay for with clear deliverables.</p>
+                </div>
+
+                <div style="padding: 2rem; background: var(--light-bg); border-radius: var(--radius-lg); border: 1px solid var(--border);">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(6, 182, 212, 0.1); color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Dedicated Support 24/7</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Direct communication via WhatsApp & Phone with experienced campaign managers throughout your project.</p>
+                </div>
+
+                <div style="padding: 2rem; background: var(--light-bg); border-radius: var(--radius-lg); border: 1px solid var(--border);">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(245, 158, 11, 0.1); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Fast Turnaround & Execution</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Quick onboarding within 24 hours so your ad campaigns, graphics, and ranking starts immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT & CUSTOM INQUIRY SECTION -->
+    <section id="contact" style="padding: 5rem 0;">
+        <div class="container" style="max-width: 800px;">
+            <div class="section-header">
+                <h2>Have Custom Requirements?</h2>
+                <p>Send us your business details for a tailored marketing proposal.</p>
+            </div>
+
+            <form id="contact-form" style="background: white; padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-md);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                    <div class="form-group">
+                        <label>Your Full Name</label>
+                        <input type="text" id="contact-name" class="form-control" placeholder="e.g. Ali Ahmed" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone / WhatsApp Number</label>
+                        <input type="tel" id="contact-phone" class="form-control" placeholder="e.g. 0300 1234567" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="contact-email" class="form-control" placeholder="e.g. ali@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Selected Service / Interest</label>
+                    <input type="text" id="contact-service" class="form-control" placeholder="e.g. Social Media Management or Custom Marketing Plan" value="Custom Marketing Request">
+                </div>
+
+                <div class="form-group">
+                    <label>Tell Us About Your Project & Goals</label>
+                    <textarea id="contact-message" class="form-control" placeholder="Describe your business and what marketing help you need..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.9rem; font-size: 1rem;">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Inquiry Now
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ORDER / INQUIRY MODAL -->
+    <div id="order-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Order Marketing Package</h3>
+                <button class="close-btn" onclick="closeOrderModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="modal-order-form">
+                <div class="modal-body">
+                    <div style="background: var(--primary-light); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border: 1px solid rgba(79, 70, 229, 0.2);">
+                        <small style="color: var(--primary); font-weight: 700; text-transform: uppercase;">Selected Package</small>
+                        <h4 id="modal-package-title" style="font-size: 1.1rem; color: var(--dark); margin-top: 4px;">Package Title</h4>
+                        <div id="modal-package-price" style="font-weight: 800; font-size: 1.25rem; color: var(--primary); margin-top: 4px;">Rs. 0</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" id="modal-cust-name" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp / Phone Number *</label>
+                        <input type="tel" id="modal-cust-phone" class="form-control" placeholder="e.g. 0300 1234567" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" id="modal-cust-email" class="form-control" placeholder="e.g. name@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Additional Notes / Special Instructions</label>
+                        <textarea id="modal-cust-message" class="form-control" placeholder="Specify your website URL, business target, or special requests..."></textarea>
+                    </div>
+                </div>
+                <div style="padding: 1.25rem 2rem; background: var(--light-bg); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeOrderModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Confirm & Submit Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div id="detail-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="detail-title">Package Details</h3>
+                <button class="close-btn" onclick="closeDetailModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="detail-body">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/?text=Hello%20All%20Marketing!%20I%20want%20to%20inquire%20about%20your%20services." target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-logo" style="color: white;">
+                        <div class="logo-badge">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="logo-text">
+                            ALL <span style="color: var(--secondary);">MARKETING</span>
+                        </div>
+                    </div>
+                    <p>Your all-in-one partner for digital growth, social media strategy, ads management, and brand optimization.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services & Prices</a></li>
+                        <li><a href="#why-us">Why Choose Us</a></li>
+                        <li><a href="admin.html">Admin Dashboard</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Services</h5>
+                    <ul>
+                        <li><a href="#services">Social Media</a></li>
+                        <li><a href="#services">Google Ads</a></li>
+                        <li><a href="#services">SEO Ranking</a></li>
+                        <li><a href="#services">Video Reels</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Contact Info</h5>
+                    <ul>
+                        <li><i class="fa-solid fa-envelope"></i> info@allmarketing.com</li>
+                        <li><i class="fa-solid fa-phone"></i> +92 300 1234567</li>
+                        <li><i class="fa-solid fa-globe"></i> Supabase Connected</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 ALL MARKETING. Connected with Supabase Backend. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS SCRIPTS -->
+    <script src="js/supabase.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

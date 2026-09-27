@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | All Marketing</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="background: #f1f5f9;">
+
+    <!-- AUTH LOCK SCREEN (Password: admin123) -->
+    <div id="admin-auth-screen" style="position: fixed; inset: 0; background: #0f172a; z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 1.5rem;">
+        <div style="background: white; padding: 2.5rem; border-radius: var(--radius-lg); width: 100%; max-width: 400px; text-align: center; box-shadow: var(--shadow-lg);">
+            <div style="width: 60px; height: 60px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1.25rem;">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h2 style="font-weight: 800; color: var(--dark); margin-bottom: 0.5rem;">Admin Portal</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Enter your admin passcode to manage services and inquiries.</p>
+            
+            <form id="auth-form">
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <input type="password" id="auth-passcode" class="form-control" placeholder="Passcode (Default: admin123)" required autofocus style="text-align: center; font-size: 1.1rem; letter-spacing: 2px;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem;">
+                    <i class="fa-solid fa-key"></i> Unlock Dashboard
+                </button>
+            </form>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">
+                <a href="index.html" style="color: var(--primary); text-decoration: underline;">&larr; Back to Website</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN DASHBOARD -->
+    <div id="admin-dashboard" style="display: none; min-height: 100vh; flex-direction: column;">
+        <!-- ADMIN NAVBAR -->
+        <nav class="navbar" style="background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div class="container nav-container">
+                <a href="index.html" class="brand-logo" style="color: white;">
+                    <div class="logo-badge" style="background: var(--primary);">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div class="logo-text">
+                        ALL <span>MARKETING</span> <small style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">ADMIN PANEL</small>
+                    </div>
+                </a>
+
+                <div class="nav-actions">
+                    <div id="db-status-pill" class="db-status-banner db-offline">
+                        <i class="fa-solid fa-circle-dot"></i> Checking Supabase...
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="openSqlModal()">
+                        <i class="fa-solid fa-code"></i> SQL Schema
+                    </button>
+                    <a href="index.html" class="btn btn-secondary btn-sm">
+                        <i class="fa-solid fa-arrow-left"></i> View Site
+                    </a>
+                    <button class="btn btn-danger btn-sm" onclick="lockAdmin()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- DASHBOARD CONTAINER -->
+        <main style="padding: 2.5rem 0;" class="container">
+
+            <!-- STATS COUNTERS -->
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">
+                        <i class="fa-solid fa-box-archive"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <h5>Total Services / Packages</h5>
+                        <h3 id="stat-total-products">0</h3>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--secondary);">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <h5>Customer Inquiries</h5>
+                        <h3 id="stat-total-inquiries">0</h3>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent);">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <h5>Pending Orders</h5>
+                        <h3 id="stat-pending-inquiries">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTROLS -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                <button id="tab-btn-products" class="btn btn-primary" onclick="switchAdminTab('products')">
+                    <i class="fa-solid fa-boxes-stacked"></i> Manage Marketing Services
+                </button>
+                <button id="tab-btn-inquiries" class="btn btn-secondary" onclick="switchAdminTab('inquiries')">
+                    <i class="fa-solid fa-list-check"></i> Customer Orders / Inquiries
+                </button>
+            </div>
+
+            <!-- SECTION 1: PRODUCTS MANAGEMENT -->
+            <div id="section-products">
+                <div class="data-table-container">
+                    <div class="table-header-toolbar">
+                        <h4><i class="fa-solid fa-tags"></i> All Marketing Products & Services</h4>
+                        <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">
+                            <i class="fa-solid fa-plus"></i> Add New Package
+                        </button>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Price (PKR)</th>
+                                    <th>Badge</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-products-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: INQUIRIES MANAGEMENT -->
+            <div id="section-inquiries" style="display: none;">
+                <div class="data-table-container">
+                    <div class="table-header-toolbar">
+                        <h4><i class="fa-solid fa-inbox"></i> Incoming Customer Enquiries & Orders</h4>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Contact Info</th>
+                                    <th>Service Requested</th>
+                                    <th>Message / Details</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-inquiries-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ADD / EDIT PRODUCT MODAL -->
+    <div id="product-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3 id="product-modal-title">Add New Marketing Package</h3>
+                <button class="close-btn" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="product-form">
+                <input type="hidden" id="edit-product-id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Service / Package Title *</label>
+                        <input type="text" id="p-title" class="form-control" placeholder="e.g. SEO Organic Boost Package" required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select id="p-category" class="form-control" required>
+                                <option value="Social Media">Social Media</option>
+                                <option value="Paid Ads">Paid Ads (Google / Meta)</option>
+                                <option value="SEO">SEO Ranking</option>
+                                <option value="Branding">Branding & Design</option>
+                                <option value="Content Creation">Content & Videos</option>
+                                <option value="Full Marketing">Full Marketing Bundle</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Badge Tag (Optional)</label>
+                            <input type="text" id="p-badge" class="form-control" placeholder="e.g. Best Seller, Hot Deal, Popular">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Selling Price (PKR) *</label>
+                            <input type="number" id="p-price" class="form-control" placeholder="e.g. 15000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Original Price (Crossed out)</label>
+                            <input type="number" id="p-original-price" class="form-control" placeholder="e.g. 22000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Image URL *</label>
+                        <input type="url" id="p-image" class="form-control" placeholder="https://images.unsplash.com/photo-..." required>
+                        <small style="color: var(--text-muted); font-size: 0.75rem;">Tip: You can use standard Unsplash image links or direct image URLs.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Short Description *</label>
+                        <textarea id="p-desc" class="form-control" placeholder="Brief summary of what this package offers..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Key Features (One per line) *</label>
+                        <textarea id="p-features" class="form-control" style="min-height: 110px;" placeholder="15 Custom Graphic Posts&#10;5 Reels & Shorts&#10;Monthly Performance Report" required></textarea>
+                    </div>
+                </div>
+                <div style="padding: 1.25rem 2rem; background: var(--light-bg); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Package</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SQL SETUP SCRIPT MODAL -->
+    <div id="sql-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 680px;">
+            <div class="modal-header">
+                <h3>Supabase SQL Database Script</h3>
+                <button class="close-btn" onclick="closeSqlModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    To permanently enable Supabase database persistence for this website, copy the script below and run it in your 
+                    <a href="https://vvfrvcfjokaeznhuxiox.supabase.co" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: underline;">Supabase SQL Editor</a>.
+                </p>
+                <textarea id="sql-code-area" class="form-control" style="font-family: monospace; font-size: 0.8rem; min-height: 250px; background: #0f172a; color: #38bdf8;" readonly></textarea>
+            </div>
+            <div style="padding: 1.25rem 2rem; background: var(--light-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Supabase URL: <strong>https://vvfrvcfjokaeznhuxiox.supabase.co</strong></span>
+                <button class="btn btn-primary" onclick="copySqlCode()"><i class="fa-solid fa-copy"></i> Copy SQL Script</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/supabase.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
